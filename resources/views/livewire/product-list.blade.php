@@ -36,6 +36,39 @@
                                     <th class="px-6 py-3 w-10 text-left bg-gray-50 w-56">
                                     </th>
                                 </tr>
+                                <tr class="bg-white">
+                                    <td></td>
+                                    <td class="px-2 py-1">
+                                        <input wire:model="searchQuery.name" placeholder="Search..." type="text" class="w-full text-sm text-black rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    </td>
+                                    <td class="px-2 py-1">
+                                        <select wire:model="searchQuery.category_id" class="w-full text-sm text-black rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                            <option value="">-- choose category --</option>
+                                            @foreach ($categories as $id=>$category)
+                                            <option value="{{$id}}">{{$category}}</option>
+                                            @endforeach
+                                        </select>   
+                                    </td>
+                                    <td class="px-2 py-1">
+                                        <select wire:model="searchQuery.country_id" class="w-full text-sm text-black rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                            <option value="">-- choose Country --</option>
+                                            @foreach ($countries as $id=>$country)
+                                            <option value="{{$id}}">{{$country}}</option>
+                                            @endforeach
+                                        </select>   
+                                    </td>
+                                    <td class="px-2 py-1 text-sm">
+                                       <div class="text-black">
+                                        From
+                                        <input wire:model="searchQuery.price.0" type="number" class="mr-2 w-full text-sm text-black rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        </div> 
+                                        <div class="text-black">
+                                            to
+                                            <input wire:model="searchQuery.price.1" type="number" class="w-full text-sm text-black rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                </tr>
                             </thead>
                             <tbody class="bg-white devide-y devide-gray-200 devide-solid">
                                 @foreach ($products as $product)
@@ -44,19 +77,19 @@
                                             <input type="checkbox" value="{{ $product->id }}">
                                         </td>
                                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
-                                            {{$product->name}}
+                                            {{ $product->name }}
                                         </td>
                                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
                                             @foreach ($product->categories as $category)
-                                            <span
-                                            class="px-2 py-1 text-xs text-indigo-700 bg-indigo-200 rounded-md">{{$category->name}}</span>
+                                                <span
+                                                    class="px-2 py-1 text-xs text-indigo-700 bg-indigo-200 rounded-md">{{ $category->name }}</span>
                                             @endforeach
                                         </td>
                                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
-                                            {{$product->country->name}}
+                                            {{ $product->country->name }}
                                         </td>
                                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
-                                            ${{number_format ($product->price / 100 , 2)}}
+                                            ${{ number_format($product->price / 100, 2) }}
                                         </td>
                                         <td>
                                             <a
@@ -73,7 +106,7 @@
                             </tbody>
                         </table>
                     </div>
-                    {!!$products->links()!!}
+                    {!! $products->links() !!}
                 </div>
             </div>
         </div>
