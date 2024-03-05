@@ -17,21 +17,37 @@
                                 <tr>
                                     <th class="px-6 py-3 w-10 text-left bg-gray-50">
                                     </th>
-                                    <th class="px-6 py-3 text-left bg-gray-50">
+                                    <th wire:click = "sortByColumn('products.name')"
+                                        class="px-6 py-3 text-left bg-gray-50">
                                         <span
                                             class="text-xs font-medium tracking-wider leading-4 text-gray-500 uppercase">Name</span>
+                                        @if ($sortColumn == 'products.name')
+                                            @include('svg.sort-' . $sortDirections)
+                                        @else
+                                            @include('svg.sort')
+                                        @endif
                                     </th>
                                     <th class="px-6 py-3 text-left bg-gray-50">
                                         <span
                                             class="text-xs font-medium tracking-wider leading-4 text-gray-500 uppercase">Categories</span>
                                     </th>
-                                    <th class="px-6 py-3 text-left bg-gray-50">
+                                    <th wire:click = "sortByColumn('countryName')" class="px-6 py-3 text-left bg-gray-50">
                                         <span
                                             class="text-xs font-medium tracking-wider leading-4 text-gray-500 uppercase">Country</span>
+                                            @if ($sortColumn == 'countryName')
+                                                @include('svg.sort-'. $sortDirections)
+                                            @else
+                                              @include('svg.sort')  
+                                            @endif
                                     </th>
-                                    <th class="px-6 py-3 text-left bg-gray-50">
+                                    <th wire:click = "sortByColumn('products.price')" class="px-6 py-3 text-left bg-gray-50">
                                         <span
                                             class="text-xs font-medium tracking-wider leading-4 text-gray-500 uppercase">Pice</span>
+                                        @if ($sortColumn == 'products.price')
+                                            @include('svg.sort-'.$sortDirections)
+                                        @else
+                                            @include('svg.sort')
+                                        @endif
                                     </th>
                                     <th class="px-6 py-3 w-10 text-left bg-gray-50 w-56">
                                     </th>
@@ -39,32 +55,37 @@
                                 <tr class="bg-white">
                                     <td></td>
                                     <td class="px-2 py-1">
-                                        <input wire:model="searchQuery.name" placeholder="Search..." type="text" class="w-full text-sm text-black rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        <input wire:model="searchQuery.name" placeholder="Search..." type="text"
+                                            class="w-full text-sm text-black rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                     </td>
                                     <td class="px-2 py-1">
-                                        <select wire:model="searchQuery.category_id" class="w-full text-sm text-black rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        <select wire:model="searchQuery.category_id"
+                                            class="w-full text-sm text-black rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                             <option value="">-- choose category --</option>
-                                            @foreach ($categories as $id=>$category)
-                                            <option value="{{$id}}">{{$category}}</option>
+                                            @foreach ($categories as $id => $category)
+                                                <option value="{{ $id }}">{{ $category }}</option>
                                             @endforeach
-                                        </select>   
+                                        </select>
                                     </td>
                                     <td class="px-2 py-1">
-                                        <select wire:model="searchQuery.country_id" class="w-full text-sm text-black rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        <select wire:model="searchQuery.country_id"
+                                            class="w-full text-sm text-black rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                             <option value="">-- choose Country --</option>
-                                            @foreach ($countries as $id=>$country)
-                                            <option value="{{$id}}">{{$country}}</option>
+                                            @foreach ($countries as $id => $country)
+                                                <option value="{{ $id }}">{{ $country }}</option>
                                             @endforeach
-                                        </select>   
+                                        </select>
                                     </td>
                                     <td class="px-2 py-1 text-sm">
-                                       <div class="text-black">
-                                        From
-                                        <input wire:model="searchQuery.price.0" type="number" class="mr-2 w-full text-sm text-black rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                        </div> 
+                                        <div class="text-black">
+                                            From
+                                            <input wire:model="searchQuery.price.0" type="number"
+                                                class="mr-2 w-full text-sm text-black rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        </div>
                                         <div class="text-black">
                                             to
-                                            <input wire:model="searchQuery.price.1" type="number" class="w-full text-sm text-black rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                            <input wire:model="searchQuery.price.1" type="number"
+                                                class="w-full text-sm text-black rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                         </div>
                                     </td>
                                     <td></td>
