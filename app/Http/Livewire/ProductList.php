@@ -16,6 +16,10 @@ class ProductList extends Component
 
     public $countries = [];
 
+    public string $sortColumn = 'products.name';
+
+    public string $sortDirections = 'asc';
+
     public $searchQuery = [
         'name' => '',
         'price' => ['', ''],
@@ -24,10 +28,29 @@ class ProductList extends Component
         'description' => ''
     ];
 
+    public $queryToSort = [
+        'sortColumn' => [
+            'except' => 'products.name'
+        ],
+        'sortDirections' => [
+            'except' => 'asc'
+        ],
+    ];
+
     public function mount()
     {
         $this->categories = Category::pluck('name', 'id')->toArray();
         $this->countries = Country::pluck('name', 'id')->toArray();
+    }
+
+    public function sortByColumn($column)
+    {
+        if ($this->sortColumn == $column) {
+            $this->sortDirections = $this->sortDirections == 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->reset('sortDirections');
+            $this->sortColumn = $column;
+        }
     }
 
     public function render()
@@ -49,11 +72,14 @@ class ProductList extends Component
                         $products->where('products.price', '<=', $value[1] * 100);
                     }
                 })
-                ->when($column == 'category_id', fn($products) => $products->whereRelation('categories', 'category_id', $value))
-                ->when($column == 'country_id', fn($products) => $products->whereRelation('country', 'id', $value))
-                ->when($column == 'name', fn($products) => $products->where('products.' . $column, 'LIKE', '%'.$value.'%' ));
+                    ->when($column == 'category_id', fn ($products) => $products->whereRelation('categories', 'category_id', $value))
+                    ->when($column == 'country_id', fn ($products) => $products->whereRelation('country', 'id', $value))
+                    ->when($column == 'name', fn ($products) => $products->where('products.' . $column, 'LIKE', '%' . $value . '%'));
             }
         }
+
+        $products->orderBy($this->sortColumn, $this->sortDirections);
+        
         return view(
             'livewire.product-list',
             [
