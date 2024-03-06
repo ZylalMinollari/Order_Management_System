@@ -16,6 +16,10 @@ class ProductList extends Component
 
     public $countries = [];
 
+    protected $listeners = ['delete', 'deleteSelected'];
+
+    public $selected = [];
+
     public string $sortColumn = 'products.name';
 
     public string $sortDirections = 'asc';
@@ -53,6 +57,38 @@ class ProductList extends Component
         }
     }
 
+    public function getSelectedCountProperty()
+    {
+        return count($this->selected);
+    }
+
+    public function deleteConfirm($method, $id = null)
+    {
+        $this->dispatchBrowserEvent('swal:confirm', [
+            'type' => 'warning',
+            'title' => 'Are you sure ?',
+            'text' => '',
+            'id' => $id,
+            'method' => $method,
+        ]);
+    }
+
+    public function delete($id)
+    {
+        Product::findOrFail($id)->delete();
+    }
+
+    public function deleteSelected()
+    {
+
+        //dd($this->selected);
+        $products = Product::whereIn('id', $this->selected)->get();
+        
+        $products->each->delete();
+
+        $this->reset('selected');
+    }
+
     public function render()
     {
         //products = Product::paginate(10);
@@ -79,7 +115,7 @@ class ProductList extends Component
         }
 
         $products->orderBy($this->sortColumn, $this->sortDirections);
-        
+
         return view(
             'livewire.product-list',
             [

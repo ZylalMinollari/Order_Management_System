@@ -11,6 +11,16 @@
                     <x-primary-button class="mb-4">
                         Add Product
                     </x-primary-button>
+                    <div class="mb-4">
+                        <button
+                            {{-- wire:click="deleteSelected" --}}
+                            wire:click = "deleteConfirm('deleteSelected')"
+                            wire:loading.attr="disabled"
+                            @disabled(! $this->selectedCount)
+                            class="px-4 py-2 mr-5 text-xs text-red-500 uppercase bg-red-200 rounded-md border border-transparent hover:text-red-700 hover:bg-red-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                            Bulk Delete
+                        </button>
+                    </div>
                     <div class="overflow-hidden overflow-x-auto mb-4 min-w-full align-middle sm:rounded-md">
                         <table class="min-w-full border divide-y divide-gray-200">
                             <thead>
@@ -95,7 +105,7 @@
                                 @foreach ($products as $product)
                                     <tr class="bg-white">
                                         <td class="px-6">
-                                            <input type="checkbox" value="{{ $product->id }}">
+                                            <input type="checkbox" value="{{ $product->id }}" wire:model.live="selected">
                                         </td>
                                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
                                             {{ $product->name }}
@@ -117,7 +127,7 @@
                                                 class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase bg-gray-800 rounded-md border border-transparent hover:bg-gray-700">
                                                 Edit
                                             </a>
-                                            <button
+                                            <button wire:click = "deleteConfirm('delete', {{$product->id}})"
                                                 class="px-4 py-2 text-xs text-red-500 uppercase bg-red-200 rounded-md border border-transparent hover:text-red-700 hover:bg-red-300">
                                                 Delete
                                             </button>
