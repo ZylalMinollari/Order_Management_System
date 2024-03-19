@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Livewire\CategoryList;
+use App\Http\Livewire\OrderList;
 use App\Http\Livewire\ProductForm;
 use App\Http\Livewire\ProductList;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('products', ProductList::class)->name('products.index');
     Route::get('product/create', ProductForm::class)->name('product.create');
     Route::get('product/edit/{product}', ProductForm::class)->name('product.edit');
+    Route::get('orders', OrderList::class)->name('orders.index');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
