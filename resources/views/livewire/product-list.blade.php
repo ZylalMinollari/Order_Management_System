@@ -28,6 +28,9 @@
                             class="px-4 py-2 mr-5 text-xs text-red-500 uppercase bg-red-200 rounded-md border border-transparent hover:text-red-700 hover:bg-red-300 disabled:opacity-50 disabled:cursor-not-allowed">
                             Bulk Delete
                         </button>
+                        <x-primary-button wire:click="export('xlsx')">Excel</x-primary-button>
+                        <x-primary-button wire:click="export('csv')">CSV</x-primary-button>
+                        <x-primary-button wire:click="export('pdf')">Pdf</x-primary-button>
                     </div>
                     <div class="overflow-hidden overflow-x-auto mb-4 min-w-full align-middle sm:rounded-md">
                         <table class="min-w-full border divide-y divide-gray-200">
@@ -60,7 +63,7 @@
                                     </th>
                                     <th wire:click = "sortByColumn('products.price')" class="px-6 py-3 text-left bg-gray-50">
                                         <span
-                                            class="text-xs font-medium tracking-wider leading-4 text-gray-500 uppercase">Pice</span>
+                                            class="text-xs font-medium tracking-wider leading-4 text-gray-500 uppercase">Price</span>
                                         @if ($sortColumn == 'products.price')
                                             @include('svg.sort-'.$sortDirections)
                                         @else
